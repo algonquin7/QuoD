@@ -70,6 +70,9 @@ public class QuoD extends AppCompatActivity {
         share = (Button) findViewById( R.id.share );
         randomButton = (Button) findViewById( R.id.random );
         quoteTextView = (TextView) findViewById( R.id.quoteView );
+
+        swipeListernerMethod( quoteTextView );//swipelisterner
+
         randomButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,6 +122,29 @@ public class QuoD extends AppCompatActivity {
     }
 
 
+    public void swipeListernerMethod(View v){
+
+        v.setOnTouchListener( new OnSwipeTouchListener( mAinActivity ){
+
+            public void onSwipeTop() {
+                Toast.makeText(mAinActivity, "top", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeRight() {
+                Toast.makeText(mAinActivity, "right", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeLeft() {
+                Toast.makeText(mAinActivity, "left", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeBottom() {
+                Toast.makeText(mAinActivity, "bottom", Toast.LENGTH_SHORT).show();
+            }
+        } );
+
+    }
+
+
+
+
     public void filessss() {
 
         Writer writer = null;
@@ -157,7 +183,9 @@ public class QuoD extends AppCompatActivity {
                 Log.w( TAG, "gvnvhmvjbk" + error );
 
             }
-        } ) {
+        } )
+
+        {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -174,6 +202,7 @@ public class QuoD extends AppCompatActivity {
                 params.put( "entry", number );
                 return params;
             }
+
         };
         MySingleton.getInstance( mAinActivity ).addToRequestQueue( stringRequest );
     }//requestMethod
