@@ -52,26 +52,51 @@ public class QuoD extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
+
         setContentView( R.layout.activity_quo_d );
+
         mAinActivity = this;
+
+        shuffleList();//listshuffle
+
+        declareAllViews();//allViewDeclaration
+
+        swipeListernerMethod( quoteTextView );//swipelisterner
+
+        allClickListerners();//allClicks
+
+    }//onCreate
+
+
+    public void shuffleList() {
+
         list = new ArrayList<Integer>();
         for (int i = 1; i < 12; i++) {
             list.add( i );
         }
         Collections.shuffle( list );
 
+    }
 
-        clipboard = (ClipboardManager) getSystemService( Context.CLIPBOARD_SERVICE );
+
+    public void declareAllViews() {
+
+        clipboard = (ClipboardManager) getSystemService( Context.CLIPBOARD_SERVICE );//{essential For Clipboard}
+
         coordinatorLayout = (CoordinatorLayout) findViewById( R.id.mainLayout );
         coordinatorLayout.setBackgroundColor( Color.BLACK );
 
         copy = (Button) findViewById( R.id.copy );
         copy.setVisibility( View.GONE );
         share = (Button) findViewById( R.id.share );
+        share.setVisibility( View.GONE );
         randomButton = (Button) findViewById( R.id.random );
         quoteTextView = (TextView) findViewById( R.id.quoteView );
 
-        swipeListernerMethod( quoteTextView );//swipelisterner
+    }
+
+
+    public void allClickListerners() {
 
         randomButton.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -87,6 +112,7 @@ public class QuoD extends AppCompatActivity {
                     random++;
                 }
                 copy.setVisibility( View.VISIBLE );
+                share.setVisibility( View.VISIBLE );
             }
         } );//randomButtonClickListener
 
@@ -109,40 +135,33 @@ public class QuoD extends AppCompatActivity {
                 shareButton( quoteTextView.getText().toString() );
             }
         } );//shareClickListerner
+
+
     }
 
 
-    public int randomMethod() {
-        savedRandomNumber = random;
-        random = new Random().nextInt( 11 - 1 ) + 1;
-        if (random == savedRandomNumber) {
-            randomMethod();
-        }
-        return random;
-    }
+    public void swipeListernerMethod(View v) {
 
-
-    public void swipeListernerMethod(View v){
-
-        v.setOnTouchListener( new OnSwipeTouchListener( mAinActivity ){
+        v.setOnTouchListener( new OnSwipeTouchListener( mAinActivity ) {
 
             public void onSwipeTop() {
-                Toast.makeText(mAinActivity, "top", Toast.LENGTH_SHORT).show();
+                Toast.makeText( mAinActivity, "top", Toast.LENGTH_SHORT ).show();
             }
+
             public void onSwipeRight() {
-                Toast.makeText(mAinActivity, "right", Toast.LENGTH_SHORT).show();
+                Toast.makeText( mAinActivity, "right", Toast.LENGTH_SHORT ).show();
             }
+
             public void onSwipeLeft() {
-                Toast.makeText(mAinActivity, "left", Toast.LENGTH_SHORT).show();
+                Toast.makeText( mAinActivity, "left", Toast.LENGTH_SHORT ).show();
             }
+
             public void onSwipeBottom() {
-                Toast.makeText(mAinActivity, "bottom", Toast.LENGTH_SHORT).show();
+                Toast.makeText( mAinActivity, "bottom", Toast.LENGTH_SHORT ).show();
             }
         } );
 
     }
-
-
 
 
     public void filessss() {
