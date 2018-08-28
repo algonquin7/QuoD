@@ -57,9 +57,7 @@ public class QuoD extends AppCompatActivity {
 
         mAinActivity = this;
 
-        requestNumberOfRows();
-
-        shuffleList();//listshuffle
+        requestNumberOfRowsAndCreateShuffledList();
 
         declareAllViews();//allViewDeclaration
 
@@ -70,10 +68,10 @@ public class QuoD extends AppCompatActivity {
     }//onCreate
 
 
-    public void shuffleList() {
+    public void shuffleList(int numberOfRows) {
 
         list = new ArrayList<Integer>();
-        for (int i = 1; i < 12; i++) {
+        for (int i = 1; i <= numberOfRows ; i++) {
             list.add(i);
         }
         Collections.shuffle( list );
@@ -191,12 +189,13 @@ public class QuoD extends AppCompatActivity {
 
     }
 
-    public void requestNumberOfRows(){
+    public void requestNumberOfRowsAndCreateShuffledList(){
 
         StringRequest stringRequest = new StringRequest( Request.Method.POST, getRowCount, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.w( TAG, "gvnvhmvjbk" + response.toString() );
+                shuffleList(Integer.parseInt( response.split( " " )[0] ));//listshuffle
 
             }
         }, new Response.ErrorListener() {
