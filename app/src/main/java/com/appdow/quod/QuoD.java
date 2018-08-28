@@ -36,8 +36,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-
-import static com.appdow.quod.Urls.getReturnOneRow;
+import static com.appdow.quod.Urls.getRowCount;
+import static com.appdow.quod.Urls.returnOneRow;
 
 public class QuoD extends AppCompatActivity {
     private static String TAG = "QuoD";
@@ -57,6 +57,8 @@ public class QuoD extends AppCompatActivity {
 
         mAinActivity = this;
 
+        requestNumberOfRows();
+
         shuffleList();//listshuffle
 
         declareAllViews();//allViewDeclaration
@@ -72,7 +74,7 @@ public class QuoD extends AppCompatActivity {
 
         list = new ArrayList<Integer>();
         for (int i = 1; i < 12; i++) {
-            list.add( i );
+            list.add(i);
         }
         Collections.shuffle( list );
 
@@ -131,11 +133,10 @@ public class QuoD extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
                 shareButton( quoteTextView.getText().toString() );
+
             }
         } );//shareClickListerner
-
 
     }
 
@@ -150,10 +151,18 @@ public class QuoD extends AppCompatActivity {
 
             public void onSwipeRight() {
                 Toast.makeText( mAinActivity, "right", Toast.LENGTH_SHORT ).show();
+                --random;
+
+                requestMethod(Integer.toString( random )  );
+
             }
 
             public void onSwipeLeft() {
                 Toast.makeText( mAinActivity, "left", Toast.LENGTH_SHORT ).show();
+
+                random++;
+
+                requestMethod(Integer.toString( random )  );
             }
 
             public void onSwipeBottom() {
@@ -182,8 +191,32 @@ public class QuoD extends AppCompatActivity {
 
     }
 
+    public void requestNumberOfRows(){
+
+        StringRequest stringRequest = new StringRequest( Request.Method.POST, getRowCount, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.w( TAG, "gvnvhmvjbk" + response.toString() );
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Log.w( TAG, "gvnvhmvjbk" + error );
+
+            }
+        } );
+
+        MySingleton.getInstance( mAinActivity ).addToRequestQueue( stringRequest );
+
+
+
+
+    }
+
     public void requestMethod(final String number) {
-        StringRequest stringRequest = new StringRequest( Request.Method.POST, getReturnOneRow(), new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest( Request.Method.POST, returnOneRow, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.w( TAG, "gvnvhmvjbk" + response.toString() + random );
