@@ -42,114 +42,155 @@ import static com.appdow.quod.Urls.getReturnOneRow;
 public class QuoD extends AppCompatActivity {
     private static String TAG = "QuoD";
     public static QuoD mAinActivity;
-    private Button copy,share,randomButton;
+    private Button copy, share, randomButton;
     private TextView quoteTextView;
-    public static int random=0,savedRandomNumber=0;
+    public static int random = 0, savedRandomNumber = 0;
     public static ClipboardManager clipboard;
     CoordinatorLayout coordinatorLayout;
     ArrayList<Integer> list;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quo_d);
+        super.onCreate( savedInstanceState );
+
+        setContentView( R.layout.activity_quo_d );
+
         mAinActivity = this;
+
+        shuffleList();//listshuffle
+
+        declareAllViews();//allViewDeclaration
+
+        swipeListernerMethod( quoteTextView );//swipelisterner
+
+        allClickListerners();//allClicks
+
+    }//onCreate
+
+
+    public void shuffleList() {
+
         list = new ArrayList<Integer>();
-        for (int i=1; i<12; i++) {
-            list.add(i);
+        for (int i = 1; i < 12; i++) {
+            list.add( i );
         }
-        Collections.shuffle(list);
+        Collections.shuffle( list );
 
-
-        clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.mainLayout);
-        coordinatorLayout.setBackgroundColor(Color.BLACK);
-
-        copy = (Button) findViewById(R.id.copy);
-        copy.setVisibility( View.GONE);
-        share = (Button) findViewById(R.id.share);
-        randomButton = (Button) findViewById(R.id.random);
-        quoteTextView = (TextView) findViewById(R.id.quoteView);
-        randomButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //requestMethod(Integer.toString(randomMethod()));
-                if((list.size() - 1)!= random){
-                requestMethod(Integer.toString(list.get(random)));
-                random++;
-                }
-                else {
-                    random = 0;
-                    Collections.shuffle(list);
-                    requestMethod(Integer.toString(list.get(random)));
-                    random++;
-                }
-                copy.setVisibility( View.VISIBLE);
-            }
-        });//randomButtonClickListener
-
-        copy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ClipData clip = ClipData.newPlainText("quoteCopies", quoteTextView.getText().toString()+"\nFor More quotes checkout QuoD App on Playstore.");
-                clipboard.setPrimaryClip(clip);
-                Snackbar snackbar = Snackbar.make(coordinatorLayout, "Copied!", Snackbar.LENGTH_LONG);
-                snackbar.show();
-            }
-        });//copyClickListerner
-
-
-
-
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                shareButton(quoteTextView.getText().toString());
-            }
-        });//shareClickListerner
     }
 
 
+    public void declareAllViews() {
 
-   public int randomMethod(){
-        savedRandomNumber =random;
-       random = new Random().nextInt(11 - 1) + 1;
-       if(random==savedRandomNumber){
-           randomMethod();
-       }
-       return random;
-   }
+        clipboard = (ClipboardManager) getSystemService( Context.CLIPBOARD_SERVICE );//{essential For Clipboard}
+
+        coordinatorLayout = (CoordinatorLayout) findViewById( R.id.mainLayout );
+        coordinatorLayout.setBackgroundColor( Color.BLACK );
+
+        copy = (Button) findViewById( R.id.copy );
+        copy.setVisibility( View.GONE );
+        share = (Button) findViewById( R.id.share );
+        share.setVisibility( View.GONE );
+        randomButton = (Button) findViewById( R.id.random );
+        quoteTextView = (TextView) findViewById( R.id.quoteView );
+
+    }
 
 
+    public void allClickListerners() {
+
+        randomButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //requestMethod(Integer.toString(randomMethod()));
+                if ((list.size() - 1) != random) {
+                    requestMethod( Integer.toString( list.get( random ) ) );
+                    random++;
+                } else {
+                    random = 0;
+                    Collections.shuffle( list );
+                    requestMethod( Integer.toString( list.get( random ) ) );
+                    random++;
+                }
+                copy.setVisibility( View.VISIBLE );
+                share.setVisibility( View.VISIBLE );
+            }
+        } );//randomButtonClickListener
+
+        copy.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipData clip = ClipData.newPlainText( "quoteCopies", quoteTextView.getText().toString() + "\nFor More quotes checkout QuoD App on Playstore." );
+                clipboard.setPrimaryClip( clip );
+                Snackbar snackbar = Snackbar.make( coordinatorLayout, "Copied!", Snackbar.LENGTH_LONG );
+                snackbar.show();
+            }
+        } );//copyClickListerner
 
 
+        share.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-    public void filessss(){
+
+                shareButton( quoteTextView.getText().toString() );
+            }
+        } );//shareClickListerner
+
+
+    }
+
+
+    public void swipeListernerMethod(View v) {
+
+        v.setOnTouchListener( new OnSwipeTouchListener( mAinActivity ) {
+
+            public void onSwipeTop() {
+                Toast.makeText( mAinActivity, "top", Toast.LENGTH_SHORT ).show();
+            }
+
+            public void onSwipeRight() {
+                Toast.makeText( mAinActivity, "right", Toast.LENGTH_SHORT ).show();
+            }
+
+            public void onSwipeLeft() {
+                Toast.makeText( mAinActivity, "left", Toast.LENGTH_SHORT ).show();
+            }
+
+            public void onSwipeBottom() {
+                Toast.makeText( mAinActivity, "bottom", Toast.LENGTH_SHORT ).show();
+            }
+        } );
+
+    }
+
+
+    public void filessss() {
 
         Writer writer = null;
 
         try {
-            writer = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream("filename.txt"), "utf-8"));
-            writer.write("Something");
+            writer = new BufferedWriter( new OutputStreamWriter(
+                    new FileOutputStream( "filename.txt" ), "utf-8" ) );
+            writer.write( "Something" );
         } catch (IOException ex) {
             // Report
         } finally {
-            try {writer.close();
+            try {
+                writer.close();
             } catch (Exception ex) {/*ignore*/}
         }
 
     }
-    public void requestMethod(final String number){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, getReturnOneRow(), new Response.Listener<String>() {
+
+    public void requestMethod(final String number) {
+        StringRequest stringRequest = new StringRequest( Request.Method.POST, getReturnOneRow(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.w(TAG,"gvnvhmvjbk" +response.toString()+random);
+                Log.w( TAG, "gvnvhmvjbk" + response.toString() + random );
                 try {
-                    JSONArray quoteResponse = new JSONArray(response);
-                    JSONObject quoteReponseObject = quoteResponse.getJSONObject(0);
-                    quoteTextView.setText(quoteReponseObject.getString("quote"));
+                    JSONArray quoteResponse = new JSONArray( response );
+                    JSONObject quoteReponseObject = quoteResponse.getJSONObject( 0 );
+                    quoteTextView.setText( quoteReponseObject.getString( "quote" ) );
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -158,15 +199,17 @@ public class QuoD extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Log.w(TAG,  "gvnvhmvjbk" + error);
+                Log.w( TAG, "gvnvhmvjbk" + error );
 
             }
-        }){
+        } )
+
+        {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> header = new HashMap<String, String>();
-                header.put("User-Agent", "QuoD");
+                header.put( "User-Agent", "QuoD" );
                 return header;
             }
 
@@ -175,23 +218,24 @@ public class QuoD extends AppCompatActivity {
 
 
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("entry",number);
+                params.put( "entry", number );
                 return params;
             }
+
         };
-        MySingleton.getInstance(mAinActivity).addToRequestQueue(stringRequest);
+        MySingleton.getInstance( mAinActivity ).addToRequestQueue( stringRequest );
     }//requestMethod
 
 
-public void shareButton(String shareQuote){
+    public void shareButton(String shareQuote) {
 
-    Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-    sharingIntent.setType("text/plain");
-    String shareBody = shareQuote + "\nFor More quotes checkout QuoD App on Playstore.";
-    sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
-    sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-    startActivity(Intent.createChooser(sharingIntent, "Share via"));
+        Intent sharingIntent = new Intent( android.content.Intent.ACTION_SEND );
+        sharingIntent.setType( "text/plain" );
+        String shareBody = shareQuote + "\nFor More quotes checkout QuoD App on Playstore.";
+        sharingIntent.putExtra( android.content.Intent.EXTRA_SUBJECT, "Subject Here" );
+        sharingIntent.putExtra( android.content.Intent.EXTRA_TEXT, shareBody );
+        startActivity( Intent.createChooser( sharingIntent, "Share via" ) );
 
-}
+    }
 
 }
