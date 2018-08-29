@@ -12,6 +12,8 @@ private static int SPLASHTIME = 3000;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logo_splash);
 
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
