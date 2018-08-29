@@ -1,10 +1,12 @@
 package com.appdow.quod;
 
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
@@ -51,7 +53,7 @@ public class QuoD extends AppCompatActivity {
     public static QuoD mAinActivity;
     private Button copy, share, randomButton;
     private TextView quoteTextView;
-    public static int random = 0, savedRandomNumber = 0;
+    public static int random = 0;
     public static ClipboardManager clipboard;
     CoordinatorLayout coordinatorLayout;
     ArrayList<Integer> list;
@@ -105,6 +107,16 @@ public class QuoD extends AppCompatActivity {
                 switch (id) {
                     case R.id.account:
                         Toast.makeText(mAinActivity, "My Account", Toast.LENGTH_SHORT).show();
+                        Uri uri = Uri.parse("https://www.instagram.com/devashah7/?hl=de");
+                        Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
+                        likeIng.setPackage("com.instagram.android");
+                        try {
+                            startActivity(likeIng);
+                        } catch (ActivityNotFoundException e) {
+                            startActivity(new Intent(Intent.ACTION_VIEW,
+                                    Uri.parse("https://www.instagram.com/devashah7/?hl=de")));
+                        }
+
                     case R.id.settings:
                         Toast.makeText(mAinActivity, "Settings", Toast.LENGTH_SHORT).show();
                     case R.id.mycart:
