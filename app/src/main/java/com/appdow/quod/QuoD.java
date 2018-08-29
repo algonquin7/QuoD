@@ -10,6 +10,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -48,6 +49,7 @@ public class QuoD extends AppCompatActivity {
     public static ClipboardManager clipboard;
     CoordinatorLayout coordinatorLayout;
     ArrayList<Integer> list;
+    public int numberOfRowsinMsqlTable=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +94,13 @@ public class QuoD extends AppCompatActivity {
         share.setVisibility( View.GONE );
         randomButton = (Button) findViewById( R.id.random );
         quoteTextView = (TextView) findViewById( R.id.quoteView );
+        quoteTextView.setMovementMethod(new ScrollingMovementMethod());
+
+    }
+
+    public void makeCopyShareVisible(){
+        copy.setVisibility( View.VISIBLE );
+        share.setVisibility( View.VISIBLE );
 
     }
 
@@ -111,8 +120,7 @@ public class QuoD extends AppCompatActivity {
                     requestMethod( Integer.toString( list.get( random ) ) );
                     random++;
                 }
-                copy.setVisibility( View.VISIBLE );
-                share.setVisibility( View.VISIBLE );
+                makeCopyShareVisible();
             }
         } );//randomButtonClickListener
 
@@ -144,27 +152,29 @@ public class QuoD extends AppCompatActivity {
         v.setOnTouchListener( new OnSwipeTouchListener( mAinActivity ) {
 
             public void onSwipeTop() {
-                Toast.makeText( mAinActivity, "top", Toast.LENGTH_SHORT ).show();
+                //Toast.makeText( mAinActivity, "top", Toast.LENGTH_SHORT ).show();
             }
 
             public void onSwipeRight() {
-                Toast.makeText( mAinActivity, "right", Toast.LENGTH_SHORT ).show();
-                --random;
 
-                requestMethod(Integer.toString( random )  );
-
+                if(random!=1 && random!=0) {
+                    --random;
+                    requestMethod(Integer.toString(random));
+                    makeCopyShareVisible();
+                }
             }
 
             public void onSwipeLeft() {
-                Toast.makeText( mAinActivity, "left", Toast.LENGTH_SHORT ).show();
 
-                random++;
-
-                requestMethod(Integer.toString( random )  );
+                if(random!=numberOfRowsinMsqlTable) {
+                    random++;
+                    requestMethod(Integer.toString(random));
+                    makeCopyShareVisible();
+                }
             }
 
             public void onSwipeBottom() {
-                Toast.makeText( mAinActivity, "bottom", Toast.LENGTH_SHORT ).show();
+
             }
         } );
 
@@ -195,7 +205,8 @@ public class QuoD extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.w( TAG, "gvnvhmvjbk" + response.toString() );
-                shuffleList(Integer.parseInt( response.split( " " )[0] ));//listshuffle
+                numberOfRowsinMsqlTable = Integer.parseInt( response.split( " " )[0] );
+                shuffleList(numberOfRowsinMsqlTable);//listshuffle
 
             }
         }, new Response.ErrorListener() {

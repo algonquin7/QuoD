@@ -29,7 +29,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="20dp"
-                android:text="Try RANDOM Button"
+                android:scrollbars = "vertical"
+                android:text="Swipe the Text Right or \n Try RANDOM Button"
                 android:textColor="#ffffff"
                 android:textSize="25dp" />
         </LinearLayout>
