@@ -278,7 +278,7 @@ public class QuoD extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.w(TAG, "gvnvhmvjbk" + response.toString());
-                numberOfRowsinMsqlTable = Integer.parseInt(response.split(" ")[0]);
+                numberOfRowsinMsqlTable = Integer.parseInt(response.trim());
                 shuffleList(numberOfRowsinMsqlTable);//listshuffle
 
             }
