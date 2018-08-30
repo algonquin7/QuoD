@@ -10,12 +10,4 @@ public class Urls {
     public static String loginInfoCheck = "https://devashah.000webhostapp.com/connect/loginInfoCheck.php";
 
 
-
-
-
-
-
-
-
-
 }
