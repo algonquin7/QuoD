@@ -17,9 +17,9 @@ private static int SPLASHTIME = 3000;
         TextView textView = (TextView) findViewById( R.id.textView );
         Typeface typeface = null;
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-             typeface = getResources().getFont(R.font.pricds);
+            // typeface = getResources().getFont(R.font.pricds);
         }
-        textView.setTypeface( typeface );
+       // textView.setTypeface( typeface );
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         new Handler().postDelayed(new Runnable() {
