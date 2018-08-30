@@ -6,9 +6,9 @@
         android:icon="@drawable/insta"
         android:title="Instagram" />
     <item
-        android:id="@+id/settings"
-        android:icon="@android:drawable/btn_default_small"
-        android:title="Option Two" />
+        android:id="@+id/login"
+        android:icon="@drawable/login"
+        android:title="Login" />
     <item
         android:id="@+id/mycart"
         android:icon="@android:drawable/btn_star"
