@@ -1,11 +1,13 @@
 package com.appdow.quod;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -29,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     final public String TAG = "LoginActivity";
     EditText email,password;
     Button button;
+    TextView signUpTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,15 @@ public class LoginActivity extends AppCompatActivity {
                 requestMethod();
             }
         });
+        signUpTextView = (TextView) findViewById( R.id.link_signup );
+        signUpTextView.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mAinActivity, "Maa chudao Nahi akrna signup", Toast.LENGTH_SHORT).show();
+                startActivity( new Intent( LoginActivity.this, SignUP.class ) );
+            }
+        } );
+
     }
 
 
@@ -84,15 +96,4 @@ public class LoginActivity extends AppCompatActivity {
         };
         MySingleton.getInstance(mAinActivity).addToRequestQueue(stringRequest);
     }
-
-
-
-
-
-
-
-
-
-
-
 }

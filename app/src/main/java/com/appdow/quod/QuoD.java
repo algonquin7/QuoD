@@ -72,6 +72,7 @@ public class QuoD extends AppCompatActivity {
         setContentView(R.layout.activity_quo_d);
 
         mAinActivity = this;
+        shuffleList(11);
 
         requestNumberOfRowsAndCreateShuffledList();
 
@@ -167,6 +168,7 @@ public class QuoD extends AppCompatActivity {
         share = (Button) findViewById(R.id.share);
         share.setVisibility(View.GONE);
         randomButton = (Button) findViewById(R.id.random);
+        randomButton.setVisibility( View.GONE );
         quoteTextView = (TextView) findViewById(R.id.quoteView);
         quoteTextView.setMovementMethod(new ScrollingMovementMethod());
 
@@ -185,7 +187,7 @@ public class QuoD extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //requestMethod(Integer.toString(randomMethod()));
-                if ((list.size() - 1) != random) {
+                if ((numberOfRowsinMsqlTable - 1) != random) {
                     requestMethod(Integer.toString(list.get(random)));
                     random++;
                 } else {
@@ -281,6 +283,7 @@ public class QuoD extends AppCompatActivity {
                 Log.w(TAG, "gvnvhmvjbk" + response.toString());
                 numberOfRowsinMsqlTable = Integer.parseInt(response.trim());
                 shuffleList(numberOfRowsinMsqlTable);//listshuffle
+                randomButton.setVisibility( View.VISIBLE );
 
             }
         }, new Response.ErrorListener() {
