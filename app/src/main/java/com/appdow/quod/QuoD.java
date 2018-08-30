@@ -1,5 +1,8 @@
 package com.appdow.quod;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -12,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -45,6 +49,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import in.mamga.carousalnotification.Carousal;
+import in.mamga.carousalnotification.CarousalItem;
+
 import static com.appdow.quod.Urls.getRowCount;
 import static com.appdow.quod.Urls.returnOneRow;
 
@@ -62,16 +69,23 @@ public class QuoD extends AppCompatActivity {
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private NavigationView navigationView;
     public ImageView imageView;
-
+    NotificationCompat.Builder notification;
+    private static final int uniqueID = 45612;
+    NotificationHelper notificationHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         setContentView(R.layout.activity_quo_d);
 
         mAinActivity = this;
+
+        notificationHelper = new NotificationHelper( mAinActivity );
+
         shuffleList(11);
 
         requestNumberOfRowsAndCreateShuffledList();
@@ -184,9 +198,11 @@ public class QuoD extends AppCompatActivity {
     public void allClickListerners() {
 
         randomButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 //requestMethod(Integer.toString(randomMethod()));
+                sendOnChannelOne("Rajma", "Chawal");
                 if ((numberOfRowsinMsqlTable - 1) != random) {
                     requestMethod(Integer.toString(list.get(random)));
                     random++;
@@ -353,6 +369,14 @@ public class QuoD extends AppCompatActivity {
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
+
+    }
+
+
+    public void sendOnChannelOne(String title, String msg){
+
+        NotificationCompat.Builder nb = notificationHelper.getChannelNotification(  title,msg );
+        notificationHelper.getmManager().notify( 1,nb.build() );
 
     }
 
