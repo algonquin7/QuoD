@@ -117,8 +117,9 @@ public class QuoD extends AppCompatActivity {
                                     Uri.parse("https://www.instagram.com/devashah7/?hl=de")));
                         }
                         return true;
-                    case R.id.settings:
+                    case R.id.login:
                         Toast.makeText(mAinActivity, "Settings", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(QuoD.this, LoginActivity.class));
                         return true;
                     case R.id.mycart:
                         Toast.makeText(mAinActivity, "My Cart", Toast.LENGTH_SHORT).show();
