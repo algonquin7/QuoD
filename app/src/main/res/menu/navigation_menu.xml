@@ -4,14 +4,21 @@
     <item
         android:id="@+id/account"
         android:icon="@drawable/insta"
-        android:title="Instagram" />
+        android:title="Connect" />
     <item
         android:id="@+id/login"
         android:icon="@drawable/login"
         android:title="Login" />
     <item
-        android:id="@+id/mycart"
-        android:icon="@android:drawable/btn_star"
-        android:title="Option Manmohan" />
+        android:id="@+id/myquotes"
+        android:icon="@drawable/ic_border_color_black_24dp"
+        android:title="MyQuotes" />
+
+    <item
+        android:id="@+id/about"
+        android:icon="@drawable/about"
+        android:title="About" />
+
+
 
 </menu>
