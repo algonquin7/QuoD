@@ -15,4 +15,14 @@
         android:layout_marginTop="15dp"
             android:background="@drawable/ic_launcher_background" />
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Welcome Deva Shah!"
+        android:padding="15dp"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp" />
+
+</LinearLayout>

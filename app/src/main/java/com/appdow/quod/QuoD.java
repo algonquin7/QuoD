@@ -62,6 +62,7 @@ public class QuoD extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private NavigationView navigationView;
+    public MenuItem menuItem;
     public ImageView imageView;
     public static SharedPreferences.Editor editor;
     public static SharedPreferences prefs;
@@ -115,7 +116,7 @@ public class QuoD extends AppCompatActivity {
 
         navigationView = (NavigationView) findViewById(R.id.nvView);
         imageView = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.dpImageView);
-        MenuItem menuItem = (MenuItem) navigationView.getMenu().findItem(R.id.login);
+        menuItem = (MenuItem) navigationView.getMenu().findItem(R.id.login);
         if (isLoggedIn()) {
             menuItem.setTitle("Logout");
         }
@@ -142,6 +143,7 @@ public class QuoD extends AppCompatActivity {
                         if (isLoggedIn()) {
                             editor.putBoolean("loggedIn", false);
                             editor.apply();
+                            menuItem.setTitle("Login");
                         } else {
                             startActivity(new Intent(QuoD.this, LoginActivity.class));
                         }
