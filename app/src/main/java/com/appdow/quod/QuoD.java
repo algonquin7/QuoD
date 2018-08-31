@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -62,6 +63,8 @@ public class QuoD extends AppCompatActivity {
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private NavigationView navigationView;
     public ImageView imageView;
+    public static SharedPreferences.Editor editor;
+    public static SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,18 @@ public class QuoD extends AppCompatActivity {
         setContentView(R.layout.activity_quo_d);
 
         mAinActivity = this;
+
+        sharedPrefDeclare();//placementIsImportant
+
+        if (isLoggedIn()) {
+
+            Toast.makeText(mAinActivity, "You are Logged in", Toast.LENGTH_SHORT).show();
+
+        } else {
+            Toast.makeText(mAinActivity, "Not logged in", Toast.LENGTH_SHORT).show();
+        }
+
+
         shuffleList(11);
 
         requestNumberOfRowsAndCreateShuffledList();
@@ -100,6 +115,10 @@ public class QuoD extends AppCompatActivity {
 
         navigationView = (NavigationView) findViewById(R.id.nvView);
         imageView = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.dpImageView);
+        MenuItem menuItem = (MenuItem) navigationView.getMenu().findItem(R.id.login);
+        if (isLoggedIn()) {
+            menuItem.setTitle("Logout");
+        }
         imageView.setBackgroundResource(R.drawable.quod1);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -117,18 +136,22 @@ public class QuoD extends AppCompatActivity {
                             startActivity(new Intent(Intent.ACTION_VIEW,
                                     Uri.parse("https://www.instagram.com/devashah7/?hl=de")));
                         }
-                        return true;
+                        break;
                     case R.id.login:
                         Toast.makeText(mAinActivity, "Settings", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(QuoD.this, LoginActivity.class));
-                        return true;
+                        if (isLoggedIn()) {
+                            editor.putBoolean("loggedIn", false);
+                            editor.apply();
+                        } else {
+                            startActivity(new Intent(QuoD.this, LoginActivity.class));
+                        }
+                        break;
                     case R.id.mycart:
                         Toast.makeText(mAinActivity, "My Cart", Toast.LENGTH_SHORT).show();
                         break;
                     default:
                         return true;
                 }
-
                 return true;
             }
         });
@@ -168,7 +191,7 @@ public class QuoD extends AppCompatActivity {
         share = (Button) findViewById(R.id.share);
         share.setVisibility(View.GONE);
         randomButton = (Button) findViewById(R.id.random);
-        randomButton.setVisibility( View.GONE );
+        randomButton.setVisibility(View.GONE);
         quoteTextView = (TextView) findViewById(R.id.quoteView);
         quoteTextView.setMovementMethod(new ScrollingMovementMethod());
 
@@ -283,7 +306,7 @@ public class QuoD extends AppCompatActivity {
                 Log.w(TAG, "gvnvhmvjbk" + response.toString());
                 numberOfRowsinMsqlTable = Integer.parseInt(response.trim());
                 shuffleList(numberOfRowsinMsqlTable);//listshuffle
-                randomButton.setVisibility( View.VISIBLE );
+                randomButton.setVisibility(View.VISIBLE);
 
             }
         }, new Response.ErrorListener() {
@@ -354,6 +377,19 @@ public class QuoD extends AppCompatActivity {
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(sharingIntent, "Share via"));
 
+    }
+
+    public static boolean isLoggedIn() {
+
+
+        return prefs.getBoolean("loggedIn", false);
+
+    }
+
+    public void sharedPrefDeclare() {
+
+        editor = getSharedPreferences("loginInfo", MODE_PRIVATE).edit();
+        prefs = getSharedPreferences("loginInfo", MODE_PRIVATE);
     }
 
 }

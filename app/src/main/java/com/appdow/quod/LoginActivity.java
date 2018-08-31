@@ -1,6 +1,7 @@
 package com.appdow.quod;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +24,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.appdow.quod.QuoD.editor;
 import static com.appdow.quod.QuoD.mAinActivity;
 import static com.appdow.quod.Urls.loginInfoCheck;
 import static com.appdow.quod.Urls.returnOneRow;
@@ -64,6 +66,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 Log.w(TAG, "gvnvhmvjbk " + response );
                 Toast.makeText(mAinActivity, response, Toast.LENGTH_SHORT).show();
+                if(response.trim().equals("success")){
+
+                    editor.putBoolean("loggedIn", true);
+                    editor.apply();
+
+                }
 
             }
         }, new Response.ErrorListener() {
