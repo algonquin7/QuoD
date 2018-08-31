@@ -19,6 +19,11 @@
         android:icon="@drawable/about"
         android:title="About" />
 
+    <item
+        android:id="@+id/test"
+        android:icon="@drawable/about"
+        android:title="TestButton" />
+
 
 
 </menu>

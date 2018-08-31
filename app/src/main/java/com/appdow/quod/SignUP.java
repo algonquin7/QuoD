@@ -40,12 +40,12 @@ public class SignUP extends AppCompatActivity {
 
         textView = (TextView) findViewById( R.id.link_login );
         textView.setOnClickListener( new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 finish();
             }
         } );
-
 
         button = (Button) findViewById( R.id.btn_signup );
         button.setOnClickListener( new View.OnClickListener() {
@@ -66,7 +66,10 @@ public class SignUP extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.w(TAG, "gvnvhmvjbk" + response );
-                Toast.makeText(mAinActivity, response, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mAinActivity, "Your Account Was Successfully Created", Toast.LENGTH_SHORT).show();
+                if(response.trim().equals( "success" )){
+                    finish();
+                }
 
             }
         }, new Response.ErrorListener() {
@@ -98,7 +101,9 @@ public class SignUP extends AppCompatActivity {
 
             }
         };
+
         MySingleton.getInstance(mAinActivity).addToRequestQueue(stringRequest);
+
     }
 
 
