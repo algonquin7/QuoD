@@ -42,7 +42,7 @@ public class SignUP extends AppCompatActivity {
         textView.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity( new Intent( SignUP.this, LoginActivity.class ) );
+                finish();
             }
         } );
 
