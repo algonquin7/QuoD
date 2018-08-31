@@ -68,11 +68,11 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(mAinActivity, response, Toast.LENGTH_SHORT).show();
                 if(response.trim().startsWith("success")){
 
-
                     mAinActivity.menuItem.setTitle( "Logout" );
                     mAinActivity.welcomeTextView.setText( "Welcome "+response.split( "success" )[1]+"!" );
                     editor.putBoolean("loggedIn", true);
                     editor.apply();
+                    finish();
 
                 }
 
