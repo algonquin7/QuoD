@@ -146,8 +146,11 @@ public class QuoD extends AppCompatActivity {
                             startActivity(new Intent(QuoD.this, LoginActivity.class));
                         }
                         break;
-                    case R.id.mycart:
-                        Toast.makeText(mAinActivity, "My Cart", Toast.LENGTH_SHORT).show();
+                    case R.id.myquotes:
+                        Toast.makeText(mAinActivity, "myquotes", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.about:
+                        Toast.makeText(mAinActivity, "about", Toast.LENGTH_SHORT).show();
                         break;
                     default:
                         return true;
