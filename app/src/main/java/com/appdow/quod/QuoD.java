@@ -62,17 +62,19 @@ public class QuoD extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private NavigationView navigationView;
+    MenuItem menuItem;
+    TextView welcomeTextView;
     public ImageView imageView;
     public static SharedPreferences.Editor editor;
     public static SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate( savedInstanceState );
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled( false );
 
-        setContentView(R.layout.activity_quo_d);
+        setContentView( R.layout.activity_quo_d );
 
         mAinActivity = this;
 
@@ -80,20 +82,20 @@ public class QuoD extends AppCompatActivity {
 
         if (isLoggedIn()) {
 
-            Toast.makeText(mAinActivity, "You are Logged in", Toast.LENGTH_SHORT).show();
+            Toast.makeText( mAinActivity, "You are Logged in", Toast.LENGTH_SHORT ).show();
 
         } else {
-            Toast.makeText(mAinActivity, "Not logged in", Toast.LENGTH_SHORT).show();
+            Toast.makeText( mAinActivity, "Not logged in", Toast.LENGTH_SHORT ).show();
         }
 
 
-        shuffleList(11);
+        shuffleList( 11 );
 
         requestNumberOfRowsAndCreateShuffledList();
 
         declareAllViews();//allViewDeclaration
 
-        swipeListernerMethod(quoteTextView);//swipelisterner
+        swipeListernerMethod( quoteTextView );//swipelisterner
 
         allClickListerners();//allClicks
 
@@ -105,69 +107,71 @@ public class QuoD extends AppCompatActivity {
     public void navigationDrwawerDeclare() {
 
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.openDrawer, R.string.closeDrawer);
+        drawerLayout = (DrawerLayout) findViewById( R.id.drawer_layout );
+        actionBarDrawerToggle = new ActionBarDrawerToggle( this, drawerLayout, R.string.openDrawer, R.string.closeDrawer );
 
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        drawerLayout.addDrawerListener( actionBarDrawerToggle );
         actionBarDrawerToggle.syncState();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled( true );
 
-        navigationView = (NavigationView) findViewById(R.id.nvView);
-        imageView = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.dpImageView);
-        MenuItem menuItem = (MenuItem) navigationView.getMenu().findItem(R.id.login);
+        navigationView = (NavigationView) findViewById( R.id.nvView );
+        imageView = (ImageView) navigationView.getHeaderView( 0 ).findViewById( R.id.dpImageView );
+        menuItem = (MenuItem) navigationView.getMenu().findItem( R.id.login );
+        welcomeTextView = (TextView) navigationView.getHeaderView( 0 ).findViewById( R.id.welcomeTextView );
         if (isLoggedIn()) {
-            menuItem.setTitle("Logout");
+            menuItem.setTitle( "Logout" );
         }
-        imageView.setBackgroundResource(R.drawable.quod1);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        imageView.setBackgroundResource( R.drawable.quod1 );
+        navigationView.setNavigationItemSelectedListener( new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
                 switch (id) {
                     case R.id.account:
-                        Toast.makeText(mAinActivity, "My Account", Toast.LENGTH_SHORT).show();
-                        Uri uri = Uri.parse("https://www.instagram.com/devashah7/?hl=de");
-                        Intent likeIng = new Intent(Intent.ACTION_VIEW, uri);
-                        likeIng.setPackage("com.instagram.android");
+                        Toast.makeText( mAinActivity, "My Account", Toast.LENGTH_SHORT ).show();
+                        Uri uri = Uri.parse( "https://www.instagram.com/devashah7/?hl=de" );
+                        Intent likeIng = new Intent( Intent.ACTION_VIEW, uri );
+                        likeIng.setPackage( "com.instagram.android" );
                         try {
-                            startActivity(likeIng);
+                            startActivity( likeIng );
                         } catch (ActivityNotFoundException e) {
-                            startActivity(new Intent(Intent.ACTION_VIEW,
-                                    Uri.parse("https://www.instagram.com/devashah7/?hl=de")));
+                            startActivity( new Intent( Intent.ACTION_VIEW,
+                                    Uri.parse( "https://www.instagram.com/devashah7/?hl=de" ) ) );
                         }
                         break;
                     case R.id.login:
-                        Toast.makeText(mAinActivity, "Settings", Toast.LENGTH_SHORT).show();
+                        Toast.makeText( mAinActivity, "Settings", Toast.LENGTH_SHORT ).show();
                         if (isLoggedIn()) {
-                            editor.putBoolean("loggedIn", false);
+                            menuItem.setTitle( "Login" );
+                            editor.putBoolean( "loggedIn", false );
                             editor.apply();
                         } else {
-                            startActivity(new Intent(QuoD.this, LoginActivity.class));
+                            startActivity( new Intent( QuoD.this, LoginActivity.class ) );
                         }
                         break;
                     case R.id.myquotes:
-                        Toast.makeText(mAinActivity, "myquotes", Toast.LENGTH_SHORT).show();
+                        Toast.makeText( mAinActivity, "myquotes", Toast.LENGTH_SHORT ).show();
                         break;
                     case R.id.about:
-                        Toast.makeText(mAinActivity, "about", Toast.LENGTH_SHORT).show();
+                        Toast.makeText( mAinActivity, "about", Toast.LENGTH_SHORT ).show();
                         break;
                     default:
                         return true;
                 }
                 return true;
             }
-        });
+        } );
 
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (actionBarDrawerToggle.onOptionsItemSelected(item))
+        if (actionBarDrawerToggle.onOptionsItemSelected( item ))
             return true;
 
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected( item );
     }
 
 
@@ -175,83 +179,97 @@ public class QuoD extends AppCompatActivity {
 
         list = new ArrayList<Integer>();
         for (int i = 1; i <= numberOfRows; i++) {
-            list.add(i);
+            list.add( i );
         }
-        Collections.shuffle(list);
+        Collections.shuffle( list );
 
     }
 
 
     public void declareAllViews() {
 
-        clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);//{essential For Clipboard}
+        clipboard = (ClipboardManager) getSystemService( Context.CLIPBOARD_SERVICE );//{essential For Clipboard}
 
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.mainLayout);
-        coordinatorLayout.setBackgroundColor(Color.BLACK);
+        coordinatorLayout = (CoordinatorLayout) findViewById( R.id.mainLayout );
+        coordinatorLayout.setBackgroundColor( Color.BLACK );
 
-        copy = (Button) findViewById(R.id.copy);
-        copy.setVisibility(View.GONE);
-        share = (Button) findViewById(R.id.share);
-        share.setVisibility(View.GONE);
-        randomButton = (Button) findViewById(R.id.random);
-        randomButton.setVisibility(View.GONE);
-        quoteTextView = (TextView) findViewById(R.id.quoteView);
-        quoteTextView.setMovementMethod(new ScrollingMovementMethod());
+        copy = (Button) findViewById( R.id.copy );
+        copy.setVisibility( View.GONE );
+        share = (Button) findViewById( R.id.share );
+        share.setVisibility( View.GONE );
+        randomButton = (Button) findViewById( R.id.random );
+        randomButton.setVisibility( View.GONE );
+        quoteTextView = (TextView) findViewById( R.id.quoteView );
+        quoteTextView.setMovementMethod( new ScrollingMovementMethod() );
 
     }
 
     public void makeCopyShareVisible() {
-        copy.setVisibility(View.VISIBLE);
-        share.setVisibility(View.VISIBLE);
+        copy.setVisibility( View.VISIBLE );
+        share.setVisibility( View.VISIBLE );
 
     }
 
 
     public void allClickListerners() {
 
-        randomButton.setOnClickListener(new View.OnClickListener() {
+        randomButton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //requestMethod(Integer.toString(randomMethod()));
                 if ((numberOfRowsinMsqlTable - 1) != random) {
-                    requestMethod(Integer.toString(list.get(random)));
+                    requestMethod( Integer.toString( list.get( random ) ) );
                     random++;
                 } else {
                     random = 0;
-                    Collections.shuffle(list);
-                    requestMethod(Integer.toString(list.get(random)));
+                    Collections.shuffle( list );
+                    requestMethod( Integer.toString( list.get( random ) ) );
                     random++;
                 }
                 makeCopyShareVisible();
             }
-        });//randomButtonClickListener
+        } );//randomButtonClickListener
 
-        copy.setOnClickListener(new View.OnClickListener() {
+        randomButton.setOnLongClickListener( new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (!randomButton.getText().equals( "public" )) {
+                    randomButton.setText( "public" );
+                } else {
+                    randomButton.setText( "Random" );
+                }
+                Toast.makeText( mAinActivity, "longPress", Toast.LENGTH_SHORT ).show();
+
+                return true;
+            }
+        } );
+
+        copy.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ClipData clip = ClipData.newPlainText("quoteCopies", quoteTextView.getText().toString() + "\nFor More quotes checkout QuoD App on Playstore.");
-                clipboard.setPrimaryClip(clip);
-                Snackbar snackbar = Snackbar.make(coordinatorLayout, "Copied!", Snackbar.LENGTH_LONG);
+                ClipData clip = ClipData.newPlainText( "quoteCopies", quoteTextView.getText().toString() + "\nFor More quotes checkout QuoD App on Playstore." );
+                clipboard.setPrimaryClip( clip );
+                Snackbar snackbar = Snackbar.make( coordinatorLayout, "Copied!", Snackbar.LENGTH_LONG );
                 snackbar.show();
             }
-        });//copyClickListerner
+        } );//copyClickListerner
 
 
-        share.setOnClickListener(new View.OnClickListener() {
+        share.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                shareButton(quoteTextView.getText().toString());
+                shareButton( quoteTextView.getText().toString() );
 
             }
-        });//shareClickListerner
+        } );//shareClickListerner
 
     }
 
 
     public void swipeListernerMethod(View v) {
 
-        v.setOnTouchListener(new OnSwipeTouchListener(mAinActivity) {
+        v.setOnTouchListener( new OnSwipeTouchListener( mAinActivity ) {
 
             public void onSwipeTop() {
                 //Toast.makeText( mAinActivity, "top", Toast.LENGTH_SHORT ).show();
@@ -261,7 +279,7 @@ public class QuoD extends AppCompatActivity {
 
                 if (random != 1 && random != 0) {
                     --random;
-                    requestMethod(Integer.toString(random));
+                    requestMethod( Integer.toString( random ) );
                     makeCopyShareVisible();
                 }
             }
@@ -270,7 +288,7 @@ public class QuoD extends AppCompatActivity {
 
                 if (random != numberOfRowsinMsqlTable) {
                     random++;
-                    requestMethod(Integer.toString(random));
+                    requestMethod( Integer.toString( random ) );
                     makeCopyShareVisible();
                 }
             }
@@ -278,7 +296,7 @@ public class QuoD extends AppCompatActivity {
             public void onSwipeBottom() {
 
             }
-        });
+        } );
 
     }
 
@@ -288,9 +306,9 @@ public class QuoD extends AppCompatActivity {
         Writer writer = null;
 
         try {
-            writer = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream("filename.txt"), "utf-8"));
-            writer.write("Something");
+            writer = new BufferedWriter( new OutputStreamWriter(
+                    new FileOutputStream( "filename.txt" ), "utf-8" ) );
+            writer.write( "Something" );
         } catch (IOException ex) {
             // Report
         } finally {
@@ -303,38 +321,38 @@ public class QuoD extends AppCompatActivity {
 
     public void requestNumberOfRowsAndCreateShuffledList() {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, getRowCount, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest( Request.Method.POST, getRowCount, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.w(TAG, "gvnvhmvjbk" + response.toString());
-                numberOfRowsinMsqlTable = Integer.parseInt(response.trim());
-                shuffleList(numberOfRowsinMsqlTable);//listshuffle
-                randomButton.setVisibility(View.VISIBLE);
+                Log.w( TAG, "gvnvhmvjbk" + response.toString() );
+                numberOfRowsinMsqlTable = Integer.parseInt( response.trim() );
+                shuffleList( numberOfRowsinMsqlTable );//listshuffle
+                randomButton.setVisibility( View.VISIBLE );
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Log.w(TAG, "gvnvhmvjbk" + error);
+                Log.w( TAG, "gvnvhmvjbk" + error );
 
             }
-        });
+        } );
 
-        MySingleton.getInstance(mAinActivity).addToRequestQueue(stringRequest);
+        MySingleton.getInstance( mAinActivity ).addToRequestQueue( stringRequest );
 
 
     }
 
     public void requestMethod(final String number) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, returnOneRow, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest( Request.Method.POST, returnOneRow, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.w(TAG, "gvnvhmvjbk" + response.toString() + random);
+                Log.w( TAG, "gvnvhmvjbk" + response.toString() + random );
                 try {
-                    JSONArray quoteResponse = new JSONArray(response);
-                    JSONObject quoteReponseObject = quoteResponse.getJSONObject(0);
-                    quoteTextView.setText(quoteReponseObject.getString("quote"));
+                    JSONArray quoteResponse = new JSONArray( response );
+                    JSONObject quoteReponseObject = quoteResponse.getJSONObject( 0 );
+                    quoteTextView.setText( quoteReponseObject.getString( "quote" ) );
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -343,17 +361,17 @@ public class QuoD extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Log.w(TAG, "gvnvhmvjbk" + error);
+                Log.w( TAG, "gvnvhmvjbk" + error );
 
             }
-        })
+        } )
 
         {
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> header = new HashMap<String, String>();
-                header.put("User-Agent", "QuoD");
+                header.put( "User-Agent", "QuoD" );
                 return header;
             }
 
@@ -362,37 +380,37 @@ public class QuoD extends AppCompatActivity {
 
 
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("entry", number);
+                params.put( "entry", number );
                 return params;
             }
 
         };
-        MySingleton.getInstance(mAinActivity).addToRequestQueue(stringRequest);
+        MySingleton.getInstance( mAinActivity ).addToRequestQueue( stringRequest );
     }//requestMethod
 
 
     public void shareButton(String shareQuote) {
 
-        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-        sharingIntent.setType("text/plain");
+        Intent sharingIntent = new Intent( android.content.Intent.ACTION_SEND );
+        sharingIntent.setType( "text/plain" );
         String shareBody = shareQuote + "\nFor More quotes checkout QuoD App on Playstore.";
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-        startActivity(Intent.createChooser(sharingIntent, "Share via"));
+        sharingIntent.putExtra( android.content.Intent.EXTRA_SUBJECT, "Subject Here" );
+        sharingIntent.putExtra( android.content.Intent.EXTRA_TEXT, shareBody );
+        startActivity( Intent.createChooser( sharingIntent, "Share via" ) );
 
     }
 
     public static boolean isLoggedIn() {
 
 
-        return prefs.getBoolean("loggedIn", false);
+        return prefs.getBoolean( "loggedIn", false );
 
     }
 
     public void sharedPrefDeclare() {
 
-        editor = getSharedPreferences("loginInfo", MODE_PRIVATE).edit();
-        prefs = getSharedPreferences("loginInfo", MODE_PRIVATE);
+        editor = getSharedPreferences( "loginInfo", MODE_PRIVATE ).edit();
+        prefs = getSharedPreferences( "loginInfo", MODE_PRIVATE );
     }
 
 }

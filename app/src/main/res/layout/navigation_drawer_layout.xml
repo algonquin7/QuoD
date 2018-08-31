@@ -15,4 +15,14 @@
         android:layout_marginTop="15dp"
             android:background="@drawable/ic_launcher_background" />
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/welcomeTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome !"
+        android:padding="15dp"
+        android:textAlignment="center"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp" />
+
+</LinearLayout>
