@@ -1,10 +1,14 @@
 package com.appdow.quod;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
@@ -41,6 +45,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -99,6 +104,11 @@ public class QuoD extends AppCompatActivity {
         allClickListerners();//allClicks
 
         navigationDrwawerDeclare();
+
+        evervyDaay();
+
+        register();
+
 
     }//onCreate
 
@@ -395,6 +405,39 @@ public class QuoD extends AppCompatActivity {
 
         editor = getSharedPreferences("loginInfo", MODE_PRIVATE).edit();
         prefs = getSharedPreferences("loginInfo", MODE_PRIVATE);
+    }
+
+    public void evervyDaay(){
+
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 10);
+        calendar.set(Calendar.MINUTE, 48);
+        calendar.set(Calendar.SECOND, 0);
+
+        Intent intent = new Intent(getApplicationContext(), QuoD.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100,intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+
+    }
+
+
+    public void register(){
+
+
+
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+               startActivity(new Intent(context, QuoD.class));
+            }
+        };
+
+
+        registerReceiver(broadcastReceiver, new IntentFilter("INTERNET_LOST"));
+
     }
 
 }
